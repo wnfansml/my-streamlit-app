@@ -5,6 +5,11 @@ st.title("🤖 나의 AI 챗봇")
 
 # 사이드바에서 API Key 입력
 api_key = st.sidebar.text_input("OpenAI API Key", type="password")
+mood = st.sidebar.selectbox(
+    "오늘의 기분을 선택하세요",
+    ["행복", "보통", "피곤", "스트레스", "슬픔", "설렘"],
+)
+st.sidebar.caption(f"선택한 기분: {mood}")
 
 # 대화 기록 초기화
 if "messages" not in st.session_state:
@@ -21,7 +26,9 @@ if prompt := st.chat_input("메시지를 입력하세요"):
         st.error("⚠️ 사이드바에서 API Key를 입력해주세요!")
     else:
         # 사용자 메시지 저장 및 표시
-        st.session_state.messages.append({"role": "user", "content": prompt})
+        st.session_state.messages.append(
+            {"role": "user", "content": f"[기분: {mood}] {prompt}"}
+        )
         with st.chat_message("user"):
             st.markdown(prompt)
         
